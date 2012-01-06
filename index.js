@@ -29,7 +29,7 @@ function parse (string) {
 	}
 	return {
 		value: value,
-		remainder: data.remainder
+		rest: data.rest
 	}
 }
 
@@ -42,7 +42,7 @@ function parsePayload (string) {
 
 	x.value = data.substr(0, length)
 	x.type = data.substr(length, 1)
-	x.remainder = data.substr(length + 1)
+	x.rest = data.substr(length + 1)
 
 	console.assert(x.type, "No payload type: " + x.value + ", " + x.type)
 	console.assert(x.value.length === length, "Data is wrong length, expected: " + length + " got: " + x.value.length)
@@ -51,34 +51,34 @@ function parsePayload (string) {
 }
 
 function parseArray (string) {
-	var result = [], x = { remainder: string }
+	var result = [], x = { rest: string }
 	if (string.length === 0) return result
 	do {
-		x = parse(x.remainder)
+		x = parse(x.rest)
 		result.push(x.value)
-	} while (x.remainder)
+	} while (x.rest)
 	return result
 }
 
 function parseObject (string) {
-	var result = {}, pair = { remainder: string }
+	var result = {}, pair = { rest: string }
 	if (string.length === 0) return result
 	do {
-		pair = parsePair(pair.remainder)
+		pair = parsePair(pair.rest)
 		result[pair.key] = pair.value
-	} while (pair.remainder)
+	} while (pair.rest)
 	return result
 }
 
 function parsePair (string) {
 	var k = parse(string)
 	console.assert(typeof(k.value) === "string", "Keys can only be strings.")
-	console.assert(k.remainder, "Unbalanced Object")
-	var v = parse(k.remainder)
+	console.assert(k.rest, "Unbalanced Object")
+	var v = parse(k.rest)
 	return {
 		key: k.value,
 		value: v.value,
-		remainder: v.remainder
+		rest: v.rest
 	}
 }
 
@@ -131,5 +131,10 @@ function stringifyObject (object) {
 	return result.join('')
 }
 
-exports.parse = parse
+exports.parse = function (string, options) {
+	if (options && options.includeRest) {
+		return parse(string);
+	}
+	return parse(string).value;
+}
 exports.stringify = stringify
