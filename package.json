@@ -1,13 +1,13 @@
 {
-  "name": "tnetstring",
+  "name": "tnet",
   "version": "1.0.0",
-  "description": "http://tnetstrings.org for javascript",
-  "homepage": "http://github.com/dannycoates/tnetstring",
+  "description": "http://tnetstrings.org for node",
+  "homepage": "http://github.com/dannycoates/tnet",
   "author": "Danny Coates <dannycoates@gmail.com>",
   "keywords": ["mongrel2", "netstrings", "tnetstrings"],
   "repository": {
     "type": "git",
-    "url": "http://github.com/dannycoates/tnetstring.git"
+    "url": "http://github.com/dannycoates/tnet.git"
   },
-  "engines": { "node": ">=0.6" },
+  "engines": { "node": ">=0.6" }
 }
