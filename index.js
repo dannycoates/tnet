@@ -45,7 +45,8 @@ function parsePayload (string) {
 	x.rest = data.substr(length + 1)
 
 	console.assert(x.type, "No payload type: " + x.value + ", " + x.type)
-	console.assert(x.value.length === length, "Data is wrong length, expected: " + length + " got: " + x.value.length)
+	console.assert(x.value.length === length,
+		"Data is wrong length, expected: " + length + " got: " + x.value.length)
 
 	return x
 }
@@ -133,8 +134,10 @@ function stringifyObject (object) {
 
 exports.parse = function (string, options) {
 	if (options && options.includeRest) {
-		return parse(string);
+		return parse(string)
 	}
-	return parse(string).value;
+	return parse(string).value
 }
+
+exports.parseMany = parseArray
 exports.stringify = stringify

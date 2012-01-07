@@ -12,7 +12,7 @@ An implementation of [TNetStrings](http://tnetstrings.org) for node.js
 
 var Tnet = require('tnet')
 
-// Parse
+// parse
 
 "hello" === Tnet.parse("5:hello,")
 true === Tnet.parse("4:true!")
@@ -22,7 +22,11 @@ null === Tnet.parse("0:~")
 {count:99} === Tnet.parse("13:5:count,2:99#}")
 ['A','B','C'] === Tnet.parse("12:1:A,1:B,1:C,]")
 
-// Stringify
+// parseMany
+
+["ab", 1, "xyz"] === Tnet.parseMany("2:ab," + "1:1#" + "3:xyz,")
+
+// stringify
 
 Tnet.stringify("hello") === "5:hello,"
 Tnet.stringify(true) === "4:true!"
