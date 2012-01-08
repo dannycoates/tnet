@@ -1,0 +1,23 @@
+var assert = require('assert')
+    Tnet = require('./index')
+
+assert.strictEqual("foo", Tnet.parse("3:foo,"))
+assert.strictEqual("®", Tnet.parse("2:®,"))
+assert.strictEqual(12, Tnet.parse("2:12#"))
+assert.strictEqual(12.3, Tnet.parse("4:12.3^"))
+assert.strictEqual(true, Tnet.parse("4:true!"))
+assert.strictEqual(false, Tnet.parse("5:false!"))
+assert.strictEqual(null, Tnet.parse("0:~"))
+assert.deepEqual(["A","B","C"], Tnet.parse("12:1:A,1:B,1:C,]"))
+assert.deepEqual({count:99}, Tnet.parse("13:5:count,2:99#}"))
+
+assert.strictEqual("3:foo,", Tnet.stringify("foo"))
+assert.strictEqual("2:®,", Tnet.stringify("®"))
+assert.strictEqual("2:12#", Tnet.stringify(12))
+assert.strictEqual("4:12.3^", Tnet.stringify(12.3))
+assert.strictEqual("5:false!", Tnet.stringify(false))
+assert.strictEqual("0:~", Tnet.stringify(null))
+assert.deepEqual("12:1:A,1:B,1:C,]", Tnet.stringify(["A","B","C"]))
+assert.deepEqual("13:5:count,2:99#}", Tnet.stringify({count:99}))
+
+console.log("ok")

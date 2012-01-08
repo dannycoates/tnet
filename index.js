@@ -37,16 +37,16 @@ function parsePayload (string) {
 	console.assert(string.length > 0, "string can't be empty")
 	var i = string.indexOf(':')
 	var length = +(string.substr(0, i))
-	var data = string.substr(i + 1)
+	var data = Buffer(string.substr(i + 1))
 	var x = {}
 
-	x.value = data.substr(0, length)
-	x.type = data.substr(length, 1)
-	x.rest = data.substr(length + 1)
+	x.value = data.toString('utf8', 0, length)
+	x.type = data.toString('ascii', length, length + 1)
+	x.rest = data.toString('utf8', length + 1)
 
 	console.assert(x.type, "No payload type: " + x.value + ", " + x.type)
-	console.assert(x.value.length === length,
-		"Data is wrong length, expected: " + length + " got: " + x.value.length)
+	console.assert(Buffer.byteLength(x.value) === length,
+		"Data is wrong length, expected: " + length + " got: " + Buffer.byteLength(x.value))
 
 	return x
 }
@@ -86,7 +86,7 @@ function parsePair (string) {
 function stringify(data) {
 	var str, type, t = typeof(data)
 	if (t === "string" || data instanceof String) {
-		str = data;
+		str = data
 		type = ','
 	}
 	else if (t === "number") {
@@ -114,7 +114,7 @@ function stringify(data) {
 		str = stringifyObject(data)
 		type = '}'
 	}
-	return str.length + ':' + str + type;
+	return Buffer.byteLength(str) + ':' + str + type
 }
 
 function stringifyArray (array) {
